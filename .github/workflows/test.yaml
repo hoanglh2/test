@@ -1,7 +1,9 @@
 name: Scale test
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - master
 
 jobs:
   scale-test1:
