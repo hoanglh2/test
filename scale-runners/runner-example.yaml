@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: controller-manager
+  namespace: runner-system
+type: Opaque
+data:
+  github_token: Z2hwX1NJbjJRU2FYR3hhcERya0g4ZWxBRnhKOXdFbVRnRjI3Wmo3bA==
+
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: runner
+  namespace: runner-system
+spec:
+  replicas: 1
+  template:
+    spec:
+      repository: hoanglh2/test
+      labels:
+        - sh-k8s-runner
+
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: runner-deployment-autoscaler
+  namespace: runner-system
+spec:
+  scaleDownDelaySecondsAfterScaleOut: 120
+  scaleTargetRef:
+    kind: RunnerDeployment
+    name: runner
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
+      repositoryNames:
+        - hoanglh2/test
+
