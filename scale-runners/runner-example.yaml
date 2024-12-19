@@ -5,7 +5,7 @@ metadata:
   namespace: runner-system
 type: Opaque
 data:
-  github_token: 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
+  github_token: Z2hwX2d1aWxkYXl1a2F0aW9uX2F1dG9rZW4=
 
 ---
 apiVersion: actions.summerwind.dev/v1alpha1
